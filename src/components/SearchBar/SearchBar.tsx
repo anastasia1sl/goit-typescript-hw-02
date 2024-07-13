@@ -1,5 +1,5 @@
 import css from "./SearchBar.module.css";
-import { Field, Formik, Form, ErrorMessage } from "formik";
+import { Field, Formik, Form, ErrorMessage, FormikHelpers } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 
 interface SearchBarProps {
@@ -11,7 +11,10 @@ interface FormikValues {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
-  const handleSubmit = (values: FormikValues, actions) => {
+  const handleSubmit = (
+    values: FormikValues,
+    { resetForm }: FormikHelpers<FormikValues>
+  ) => {
     const query = values.query;
 
     if (!query.trim()) {
@@ -19,8 +22,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
       return;
     }
 
-    onSubmit(values);
-    actions.resetForm();
+    onSubmit(query);
+    resetForm();
   };
 
   return (
